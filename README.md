@@ -74,7 +74,7 @@ The file `TextProcessor_colab.ipynb` allows you to process and convert Microsoft
 - Download all audios in a ready-to-use ZIP file.
 
 #### How to use it
-1. Open [a the notebook](TextProcessor_colab.ipynb)
+1. Open [the notebook](TextProcessor_colab.ipynb)
 2. Click "Open in collab".
 4. Enter the URL and parameters
 5. Execute the notebook
