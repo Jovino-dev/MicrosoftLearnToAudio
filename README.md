@@ -69,18 +69,16 @@ The file `TextProcessor_colab.ipynb` allows you to process and convert Microsoft
 
 ### What can you do with the notebook?
 - Enter the URL of a Microsoft Learn module.
-- Choose language, speed, and voice type (online/offline).
 - Download and process all module units.
 - Generate MP3 audio files for each unit.
 - Download all audios in a ready-to-use ZIP file.
 
 #### How to use it
-1. Upload the notebook to Google Colab.
-2. Run the cells in order.
-3. Enter the URL and parameters when prompted.
-4. Download the ZIP with the generated audios.
+1. Open [a relative link](TextProcessor_colab.ipynb)
+2. Click "Open in collab".
+4. Enter the URL and parameters
+5. Execute the notebook
 
-> **Note:** Offline mode (pyttsx3) may not be available in all Colab environments, but the notebook will try to use it if possible.
 
 ## Notes
 
