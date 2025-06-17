@@ -23,27 +23,17 @@ class TextProcessor:
         
         # Words/phrases to filter (navigation, UI, etc.)
         self.filter_phrases = [
-            'skip to main content',
-            'breadcrumb navigation',
-            'table of contents',
-            'in this article',
-            'next steps',
-            'feedback',
-            'was this page helpful',
-            'submit and view feedback',
-            'microsoft learn',
-            'sign in',
-            'search',
-            'browse',
-            'theme',
-            'light',
-            'dark',
-            'high contrast',
-            'previous unit',
-            'next unit',
-            'completed',
-            'check your knowledge',
-            'knowledge check'
+            'skip to main content', 'breadcrumb navigation', 'table of contents',
+            'in this article', 'next steps', 'feedback', 'was this page helpful',
+            'submit and view feedback', 'microsoft learn', 'sign in', 'search',
+            'browse', 'theme', 'light', 'dark', 'high contrast', 'previous unit',
+            'next unit', 'completed', 'check your knowledge', 'knowledge check',
+            # User-specific intro phrases
+            'leer en ingles', 'agregar', 'agregar al plan', 'logros', 'preguntar a learn', 'completado',
+            # User-specific outro phrases
+            'comentarios', 'le ha resultado util esta pagina', 
+            # Time pattern
+            'minutos'
         ]
 
     def clean_and_structure(self, raw_text):
@@ -161,7 +151,7 @@ class TextProcessor:
 
     def split_into_chunks(self, text, max_chunk_size=4000):
         """
-        Splits the text into chunks for TTS processing
+        Splits the text into chunks for TTS processing, preserving sentence boundaries and natural pauses.
         
         Args:
             text (str): Text to split
@@ -170,27 +160,23 @@ class TextProcessor:
         Returns:
             list: List of text chunks
         """
-        if len(text) <= max_chunk_size:
-            return [text]
-        
+        import re
+        # Ensure all sentences end with proper punctuation
+        sentences = re.split(r'(?<=[.!?])\s+', text.strip())
+        # Remove empty sentences
+        sentences = [s.strip() for s in sentences if s.strip()]
         chunks = []
-        sentences = re.split(r'[.!?]+\s+', text)
         current_chunk = ""
-        
         for sentence in sentences:
-            # Si agregar esta oración excede el límite
-            if len(current_chunk) + len(sentence) > max_chunk_size:
+            # Add a space after each sentence for natural pause
+            sentence_with_space = sentence if sentence.endswith(('.', '!', '?')) else sentence + '.'
+            sentence_with_space += ' '
+            if len(current_chunk) + len(sentence_with_space) > max_chunk_size:
                 if current_chunk:
                     chunks.append(current_chunk.strip())
-                current_chunk = sentence
+                current_chunk = sentence_with_space
             else:
-                if current_chunk:
-                    current_chunk += ". " + sentence
-                else:
-                    current_chunk = sentence
-        
-        # Agregar el último chunk
+                current_chunk += sentence_with_space
         if current_chunk:
             chunks.append(current_chunk.strip())
-        
         return chunks
